@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PREDICTION SYSTEM</title>
+    {% load static %}
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- Bootstrap 3.3.2 -->
+    <link href="{% static 'eval/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+
+    <!-- Theme style -->
+    <link href="{% static 'eval/dist/css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="{% static 'eval/dist/css/skins/_all-skins.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- iCheck -->
+    <link href="{% static 'eval/plugins/iCheck/flat/blue.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Morris chart -->
+    <link href="{% static 'eval/plugins/morris/morris.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- jvectormap -->
+    <link href="{% static 'eval/plugins/jvectormap/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Date Picker -->
+    <link href="{% static 'eval/plugins/datepicker/datepicker3.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Daterange picker -->
+    <link href="{% static 'eval/plugins/daterangepicker/daterangepicker-bs3.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="{% static 'eval/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+</head>
+<body class="skin-blue">
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="/dashboard/" class="logo"><b>A.P.P </b>System</a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{% static 'eval/dist/img/user2-160x160.jpg' %}" class="user-image"
+                                 alt="User Image"/>
+                            <span class="hidden-xs">userid here</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="{% static 'eval/dist/img/user2-160x160.jpg' %}" class="img-circle"
+                                     alt="User Image"/>
+                                <p>
+                                    full names here
+                                    <small>{{ request.session.dept }}</small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/signout/" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="{% static 'eval/dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image"/>
+                </div>
+                <div class="pull-left info">
+                    <p>Alexander Pierce</p>
+
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="header">MAIN NAVIGATION</li>
+                <li><a href="/dashboard/">Dashboard</a></li>
+
+                {% if request.session.role == 'admin' %}
+                <!--Administrator side-->
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Performance</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">&nbsp;&nbsp;&nbsp; Staff Performance</a></li>
+                        <li><a href="#">&nbsp;&nbsp;&nbsp; Students Performance</a></li>
+                    </ul>
+                </li>
+                <li class="text-danger"><a href="/admindepartment/" class="text-danger">Manage Departments</a></li>
+                <li class="text-danger"><a href="/admincourse/" class="text-danger">Manage Courses</a></li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Manage Users</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/adminstaff/">&nbsp;&nbsp;&nbsp; Staff</a></li>
+                        <li><a href="/adminstudent/">&nbsp;&nbsp;&nbsp; Students</a></li>
+                    </ul>
+                </li>
+                <li class="text-danger"><a href="/adminallocation/" class="text-danger">Manage Allocations</a></li>
+                {% elif request.session.role == 'staff' %}
+
+                <!--Staff side-->
+                <li class="text-danger"><a href="#" class="text-danger">Performance</a></li>
+                <li class="text-danger"><a href="/stafftest/" class="text-danger">Manage Tests</a></li>
+                <li class="text-danger"><a href="/staffcourse/" class="text-danger">View Courses</a></li>
+                <li class="text-danger"><a href="/staffstudent/" class="text-danger">View Students</a></li>
+
+                {% else %}
+                <!--Student side-->
+                <li class="text-danger"><a href="#" class="text-danger">Performance</a></li>
+                <li class="text-danger"><a href="/studentcourse/" class="text-danger">Manage Courses</a></li>
+                <li class="text-danger"><a href="/studenttest/" class="text-danger">Tests</a></li>
+                {% endif %}
+                <li class="text-danger"><a href="/signout/" class="text-danger">Sign Out</a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <div class="content-wrapper">
+        {% block maincontent%}
+        {% endblock %}
+    </div><!-- /.content-wrapper -->
+    <footer class="main-footer text-center">
+        <!--<div class="pull-right hidden-xs">
+          <b>Version</b> 2.0
+        </div>-->
+        <strong> Copyright &copy; 2014-2015 Assessment and Performance Prediction System.</strong> All rights reserved.
+    </footer>
+</div><!-- ./wrapper -->
+
+<!-- jQuery 2.1.3 -->
+<script src="{% static 'eval/plugins/jQuery/jQuery-2.1.3.min.js' %}"></script>
+
+<script>
+      $.widget.bridge('uibutton', $.ui.button);
+
+</script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="{% static 'eval/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'eval/plugins/morris/morris.min.js' %}" type="text/javascript"></script>
+<!-- Sparkline -->
+<script src="{% static 'eval/plugins/sparkline/jquery.sparkline.min.js' %}" type="text/javascript"></script>
+<!-- jvectormap -->
+<script src="{% static 'eval/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'eval/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}" type="text/javascript"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static 'eval/plugins/knob/jquery.knob.js' %}" type="text/javascript"></script>
+<!-- daterangepicker -->
+<script src="{% static 'eval/plugins/daterangepicker/daterangepicker.js' %}" type="text/javascript"></script>
+<!-- datepicker -->
+<script src="{% static 'eval/plugins/datepicker/bootstrap-datepicker.js' %}" type="text/javascript"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="{% static 'eval/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"
+        type="text/javascript"></script>
+<!-- iCheck -->
+<script src="{% static 'eval/plugins/iCheck/icheck.min.js' %}" type="text/javascript"></script>
+<!-- Slimscroll -->
+<script src="{% static 'eval/plugins/slimScroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+<!-- FastClick -->
+<script src="{% static 'eval/plugins/fastclick/fastclick.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'eval/dist/js/app.min.js' %}" type="text/javascript"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static 'eval/dist/js/pages/dashboard.js' %}" type="text/javascript"></script>
+
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'eval/dist/js/demo.js' %}" type="text/javascript"></script>
+</body>
+</html>

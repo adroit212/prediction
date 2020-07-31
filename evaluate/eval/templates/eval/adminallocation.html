@@ -1,0 +1,92 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Manage Allocations
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Add New Allocation</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form onsubmit="return confirm('Save!') " action="/regallocation/" name="regallocation" role="form"
+                      method="post">
+                    {%csrf_token%}
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="staffemail">Staff</label>
+                            <select class="form-control" name="staffemail" id="staffemail" required>
+                                <option></option>
+                                {%for staff in allstaffs%}
+                                <option value="{{staff.staffemail}}">{{staff.staffname}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="csecode">Course</label>
+                            <select class="form-control" name="csecode" id="csecode" required>
+                                <option></option>
+                                {%for course in allcourses%}
+                                {%if course.coursecode not in allocchecker %}
+                                <option value="{{course.coursecode}}">{{course.coursetitle}} ({{course.coursecode}})
+                                </option>
+                                {%endif%}
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer text-right">
+                        <button type="submit" class="btn btn-primary">Save Allocation</button>
+                    </div>
+                </form>
+            </div><!-- /.box -->
+        </div>
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Allocation Record</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background-color:#000; color: #fff;">
+                        <tr>
+                            <td>Course</td>
+                            <td>Department</td>
+                            <td>Staff</td>
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for alloc, value in allocations.items%}
+                        <tr>
+                            <td>{{value.coursetitle}} ({{value.coursecode}})</td>
+                            <td>{{value.deptname}}</td>
+                            <td>{{value.staffname}}</td>
+                            <td class="text-center">
+                                <form onsubmit="return confirm('Delete!') " action="/remallocation/" method="post"
+                                      name="deleteform">
+                                    {%csrf_token%}
+                                    <input type="hidden" name="delid" value="{{value.allocid}}">
+                                    <button title="Delete" type="submit" class="btn btn-sm btn-danger"><i
+                                            class="glyphicon glyphicon-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
+{% endblock %}

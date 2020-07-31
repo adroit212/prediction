@@ -1,0 +1,142 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Test Questions
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <p>Select course to take test</p>
+                </div>
+                <div class="box-body">
+                    <form name="selectionform" action="/studenttest2/" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select name="cse" class="form-control" required>
+                                        <option></option>
+                                        {%for course in courses%}
+                                        <option value="{{course.coursecode}}">{{course.coursetitle}}
+                                            ({{course.coursecode}})
+                                        </option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label><br/>
+                                    <button type="submit" name="view" class="btn btn-primary">View Questions</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {%if flag == True%}
+        <div class="col-md-12">
+            <form method="post" name="testform" action="/submittest/">
+                {%csrf_token%}
+                <div class="box box-primary">
+                    <div class="box-header" style="background-color: #e8e8e8;">
+                        <div class="row">
+                            <div class="col-md-4"><strong>Department:</strong> {{deptname}} ({{deptcode}})</div>
+                            <div class="col-md-4"><strong>Course:</strong> {{coursetitle}} ({{coursecode}})</div>
+                            <div class="col-md-4"><strong>Level:</strong> {{level}}</div>
+
+                            <input type="hidden" name="deptcode" value="{{deptcode}}">
+                            <input type="hidden" name="csecode" value="{{coursecode}}">
+                        </div>
+                    </div>
+                    {%if not alreadytaken %}
+                    <div class="box-body">
+                        {%for testquest in testquestions%}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Question:</label>
+                                    <p>{{testquest.question}}</p>
+                                    <input type="hidden" name="questionid[]" value="{{testquest.testquestid}}">
+                                    <input type="hidden" name="{{testquest.id}}answer" value="{{testquest.answer}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input group mb-3">
+                                    <label>Option A</label>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="radio" name="{{testquest.id}}opt" value="a">
+                                            <span>{{testquest.opta}}</span>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input group mb-3">
+                                    <label>Option B</label>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="radio" name="{{testquest.id}}opt" value="b">
+                                            <span>{{testquest.optb}}</span>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input group mb-3">
+                                    <label>Option C</label>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="radio" name="{{testquest.id}}opt" value="c">
+                                            <span>{{testquest.optc}}</span>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input group mb-3">
+                                    <label>Option D</label>
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="radio" name="{{testquest.id}}opt" value="d">
+                                            <span>{{testquest.optd}}</span>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        {%endfor%}
+                    </div>
+                    <div class="box-footer text-right">
+                        <button class="btn btn-primary" type="submit">Submit Test</button>
+                    </div>
+                    {%else%}
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-success">You have already taken a test for this course</p>
+                            </div>
+                        </div>
+                    </div>
+                    {%endif%}
+                </div>
+            </form>
+        </div>
+        {%endif%}
+    </div>
+</section><!-- /.content -->
+{% endblock %}

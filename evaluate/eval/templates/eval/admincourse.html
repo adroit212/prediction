@@ -1,0 +1,102 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Manage Courses
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Add New Course</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form onsubmit="return confirm('Save!') " action="/regcourse/" name="regcourse" role="form"
+                      method="post">
+                    {%csrf_token%}
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="cse_code">Course Code</label>
+                            <input type="text" class="form-control" name="cse_code" id="cse_code" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cse_title">Course Title</label>
+                            <input type="text" class="form-control" name="cse_title" id="cse_title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cse_dept">Departments</label>
+                            <select name="cse_dept" id="cse_dept" class="form-control" required>
+                                {%for s_dept in departments%}
+                                <option value="{{s_dept.deptcode}}">{{s_dept.deptname}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <select name="level" id="level" class="form-control" required>
+                                <option value="100">100 Level</option>
+                                <option value="200">200 Level</option>
+                                <option value="300">300 Level</option>
+                                <option value="400">400 Level</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <p><b>Note:</b> Two different courses cannot have the same course code</p>
+                        </div>
+
+                    </div><!-- /.box-body -->
+                    <div class="box-footer text-right">
+                        <button type="submit" class="btn btn-primary">Save Department</button>
+                    </div>
+                </form>
+            </div><!-- /.box -->
+        </div>
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Department Record</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background-color:#000; color: #fff;">
+                        <tr>
+                            <td>Course</td>
+                            <td>Department</td>
+                            <td>Level</td>
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for cse in courses %}
+                        <tr>
+                            <td>{{cse.coursetitle}} ({{cse.coursecode}})</td>
+                            <td>{{cse.deptcode}}</td>
+                            <td>{{cse.level}}</td>
+                            <td class="text-center">
+                                <form onsubmit="return confirm('Delete!') " action="/remcourse/" method="post"
+                                      name="deleteform">
+                                    {%csrf_token%}
+                                    <input type="hidden" name="delid" value="{{cse.coursecode}}">
+                                    <button title="Delete" type="submit" class="btn btn-sm btn-danger"><i
+                                            class="glyphicon glyphicon-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
+{% endblock %}

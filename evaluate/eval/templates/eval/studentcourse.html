@@ -1,0 +1,71 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Manage Courses
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Register Courses</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form onsubmit="return confirm('Save!') " action="/regstudcse/" name="regstudcse" role="form"
+                      method="post">
+                    {%csrf_token%}
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select name="course" id="course" class="form-control" required>
+                                <option value=""> </option>
+                                {%for cse in courses%}
+                                {% if cse.coursecode not in checker %}
+                                <option value="{{cse.coursecode}}">{{cse.coursetitle}} ({{cse.coursecode}})</option>
+                                {%endif%}
+                                {%endfor%}
+                            </select>
+                        </div>
+
+                    </div><!-- /.box-body -->
+                    <div class="box-footer text-right">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div><!-- /.box -->
+        </div>
+
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Course Record</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background-color:#000; color: #fff;">
+                        <tr>
+                            <td>Course Code</td>
+                            <td>Course Title</td>
+                            <td>Level</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, cse in regcourses.items %}
+                        <tr>
+                            <td>({{cse.coursecode}})</td>
+                            <td>{{cse.coursetitle}}</td>
+                            <td>{{cse.level}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
+{% endblock %}

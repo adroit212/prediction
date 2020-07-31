@@ -1,0 +1,73 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Register New Staff
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Staff registration form</h3>
+                </div>
+                <form enctype="multipart/form-data"  action="/regstaff2/"
+                      name="regstaff" role="form" method="post">
+                    {%csrf_token%}
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="staffname">Full name</label>
+                                    <input type="text" class="form-control" name="staffname" id="staffname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="staffemail">Email Address</label>
+                                    <input type="text" class="form-control" name="staffemail" id="staffemail" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mobile">Phone Number</label>
+                                    <input type="text" class="form-control" name="mobile" id="mobile" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="deptcode">Departments</label>
+                                    <select name="deptcode" id="deptcode" class="form-control" required>
+                                        {%for s_dept in departments%}
+                                        <option value="{{s_dept.deptcode}}">{{s_dept.deptname}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="photo">Image</label>
+                                    <input type="file" class="form-control" name="photo" id="photo" required>
+                                </div>
+                            </div>-->
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <p><b>Note:</b> Two different staff cannot have the same email</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer text-right">
+                        <a href="/adminstaff/" class="btn btn-danger">Cancel</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <button type="submit" class="btn btn-primary">Save Details</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Allocated Courses
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Allocated Course Display</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background-color:#000; color: #fff;">
+                        <tr>
+                            <td>Course Code</td>
+                            <td>Course Title</td>
+                            <td>Department</td>
+                            <td>Level</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, cse in courses.items %}
+                        <tr>
+                            <td>{{cse.coursecode}}</td>
+                            <td>{{cse.coursetitle}}</td>
+                            <td>{{cse.deptname}}</td>
+                            <td>{{cse.level}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
+{% endblock %}

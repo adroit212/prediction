@@ -1,0 +1,98 @@
+{% extends "eval/mother_frame.html"%}
+{% block maincontent %}
+<section class="content-header">
+    <h1>
+        Students Record
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <p>Select course to view students from</p>
+                </div>
+                <div class="box-body">
+                    <form name="selectionform" action="/staffstudent2/" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select name="cse" class="form-control" required>
+                                        <option></option>
+                                        {%for course in courses%}
+                                        {%if course.coursecode in allocations %}
+                                        <option value="{{course.coursecode}}">{{course.coursetitle}} ({{course.coursecode}})</option>
+                                        {%endif%}
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label><br/>
+                                    <button type="submit" name="view" class="btn btn-primary">View Students</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <!--<div class="box-header text-right">
+                        <a href="/regtest1/" class="btn btn-primary">Add New</a>
+                </div>-->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-striped">
+                        <thead >
+                        <tr>
+                            <td colspan="2"><strong>Department: </strong> {{deptname}}</td>
+                            <td colspan="3"><strong>Course: </strong> {{coursetitle}} ({{coursecode}})</td>
+                            <td colspan="2"><strong>Level: </strong> {{level}}</td>
+                        </tr>
+                        <tr style="background-color:#000; color: #fff;">
+                            <th>Question</th>
+                            <th>Option A</th>
+                            <th>Option B</th>
+                            <th>Option C</th>
+                            <th>Option D</th>
+                            <th>Answer</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {%for test in tests%}
+                        <tr>
+                            <td> {{test.question}}</td>
+                            <td>{{test.opta}}</td>
+                            <td>{{test.optb}}</td>
+                            <td>{{test.optc}}</td>
+                            <td>{{test.optd}}</td>
+                            <td>Option {{test.answer}}</td>
+                            <td class="text-center">
+                                <form onsubmit="return confirm('Delete!') " action="/remtest/" method="post"
+                                      name="deleteform">
+                                    {%csrf_token%}
+                                    <input type="hidden" name="delid" value="{{test.testquestid}}">
+                                    <button title="Delete" type="submit" class="btn btn-sm btn-danger"><i
+                                            class="glyphicon glyphicon-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer text-right">
+                    <a href="/regtest1/" class="btn btn-primary">Register New</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
+{% endblock %}
