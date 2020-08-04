@@ -65,8 +65,8 @@
                                 <div class="form-group">
                                     <label>Question:</label>
                                     <p>{{testquest.question}}</p>
-                                    <input type="hidden" name="questionid[]" value="{{testquest.testquestid}}">
-                                    <input type="hidden" name="{{testquest.id}}answer" value="{{testquest.answer}}">
+                                    <input type="hidden" name="questionid" value="{{testquest.testquestid}}">
+                                    <input type="hidden" name="answer" value="{{testquest.answer}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -74,7 +74,7 @@
                                     <label>Option A</label>
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="radio" name="{{testquest.id}}opt" value="a">
+                                            <input type="radio" name="{{testquest.testquestid}}" value="a">
                                             <span>{{testquest.opta}}</span>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                     <label>Option B</label>
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="radio" name="{{testquest.id}}opt" value="b">
+                                            <input type="radio" name="{{testquest.testquestid}}" value="b">
                                             <span>{{testquest.optb}}</span>
                                         </div>
                                     </div>
@@ -98,7 +98,7 @@
                                     <label>Option C</label>
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="radio" name="{{testquest.id}}opt" value="c">
+                                            <input type="radio" name="{{testquest.testquestid}}" value="c">
                                             <span>{{testquest.optc}}</span>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@
                                     <label>Option D</label>
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="radio" name="{{testquest.id}}opt" value="d">
+                                            <input type="radio" name="{{testquest.testquestid}}" value="d">
                                             <span>{{testquest.optd}}</span>
                                         </div>
                                     </div>

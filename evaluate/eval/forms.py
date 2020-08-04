@@ -90,10 +90,3 @@ class RegstudcseForm(forms.Form):
 class TaketestForm(forms.Form):
     cse = forms.CharField()
 
-
-class SubmittestForm(forms.Form):
-    questionid = forms.CharField(widget=forms.HiddenInput)
-    answer = forms.CharField(widget=forms.HiddenInput)
-    opt = forms.CharField(widget=forms.RadioSelect)
-    csecode = forms.CharField(widget=forms.HiddenInput)
-    deptcode = forms.CharField(widget=forms.HiddenInput)

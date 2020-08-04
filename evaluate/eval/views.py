@@ -568,18 +568,34 @@ def studenttest2(request):
 
 def submittest(request):
     if request.method == 'POST':
-        submitform = SubmittestForm(request.POST)
 
-        if submitform.is_valid():
-            testresid = 'res' + datetime.today().strftime('%Y%m%d%H%M%S')
-            testdate = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-            questionid = submitform.cleaned_data.getlist('questionid')
-            answer = submitform.cleaned_data.get('answer')
-            opt = submitform.cleaned_data.get('opt')
-            coursecode = submitform.cleaned_data.get('csecode')
-            deptcode = submitform.cleaned_data.get('deptcode')
-            score = {'derivable': 0, 'derived': 0}
+        # get all items in list form without using form model
+        # if submitform.is_valid():
 
-            print(questionid)
+        studentregno = request.session['uid']
+        testdate = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        coursecode = request.POST.get('csecode')
+        deptcode = request.POST.get('deptcode')
 
-        return HttpResponse(questionid)
+        questionid = request.POST.getlist('questionid')
+        answer_list = request.POST.getlist('answer')
+        counter_index = 0
+        for qid in questionid:
+            testresid = 'res' + datetime.today().strftime('%Y%m%d%H%M%S') + format(counter_index)
+            opt = request.POST.get(qid)[0]
+            answer = answer_list[counter_index]
+            score = 0
+            if opt == answer:
+                score += 1
+
+            new_entry = Testresult(testresid=testresid, studentregno=studentregno, testquestid=qid,
+                                   coursecode=coursecode, deptcode=deptcode, scorederivable='1',
+                                   scorederived=format(score), testdatetime=testdate)
+            new_entry.save()
+            counter_index += 1
+
+        # go back to normal view with success message
+        msg = "<script>alert('Test taken successfully!'); window.location.href='/studenttest/';</script>"
+        return HttpResponse(msg)
+
+    return HttpResponse('Error occured please go back and try again')
